@@ -5,7 +5,7 @@
 "version": "1.0.0",
 "title": "Podcast Episode",
 "category": "media",
-"icon": "controls-play",
+"icon": "microphone",
 "description": "Embed a podcast episode using the WordPress native media player. Includes a Download link and a Subscribe popup with links to Apple Podcasts, Spotify, Audible, YouTube, and RSS.",
 "keywords": [ "podcast", "audio", "video", "player", "subscribe", "download", "episode" ],
 "textdomain": "podcast-blocks",

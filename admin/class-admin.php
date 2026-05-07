@@ -98,7 +98,7 @@ class Podcast_Blocks_Admin {
 		$subscribe_fields = array(
 			'subscribe_apple'   => __( 'Apple Podcasts URL', 'podcast-blocks' ),
 			'subscribe_spotify' => __( 'Spotify URL', 'podcast-blocks' ),
-			'subscribe_audible' => __( 'Audible URL', 'podcast-blocks' ),
+			'subscribe_audible' => __( 'Amazon Music URL', 'podcast-blocks' ),
 			'subscribe_youtube' => __( 'YouTube URL', 'podcast-blocks' ),
 		);
 
