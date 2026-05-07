@@ -1,0 +1,18 @@
+{
+    "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+    "landingPage": "/wp-admin/plugins.php",
+    "login": true,
+    "steps": [
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "git:directory",
+                "url": "https://github.com/mandato-projects/podcast-blocks",
+                "ref": "claude/podcast-blocks-plugin-Jm3I1"
+            },
+            "options": {
+                "activate": true
+            }
+        }
+    ]
+}

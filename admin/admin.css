@@ -1,0 +1,30 @@
+/* podcast blocks admin.css
+*/
+
+.required {
+    color: red;
+    font-weight: bold;
+    margin-left: 5px;
+}
+/* Optional: Style the input field border */
+input:required {
+    border-color: #dc3232;
+}
+
+.podcast-blocks-dashicon-md {
+    vertical-align:top;
+    font-size: 32px;
+    margin-right: 12px;
+}
+.podcast-blocks-card-value {
+    font-size:24px;
+    font-weight:700;
+    margin: 0 0 0;
+    color:#1d2327;
+}
+.podcast-blocks-red {
+    color: #e02424;
+}
+.podcast-blocks-green {
+    color: #00a32a;
+}

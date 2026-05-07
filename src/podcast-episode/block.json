@@ -1,0 +1,38 @@
+{
+"$schema": "https://schemas.wp.org/trunk/block.json",
+"apiVersion": 3,
+"name": "podcast-blocks/podcast-episode",
+"version": "1.0.0",
+"title": "Podcast Episode",
+"category": "media",
+"icon": "controls-play",
+"description": "Embed a podcast episode using the WordPress native media player. Includes a Download link and a Subscribe popup with links to Apple Podcasts, Spotify, Audible, YouTube, and RSS.",
+"keywords": [ "podcast", "audio", "video", "player", "subscribe", "download", "episode" ],
+"textdomain": "podcast-blocks",
+"supports": {
+"html": false,
+"align": [ "wide", "full" ]
+},
+"attributes": {
+"mediaUrl": {
+"type": "string",
+"default": ""
+},
+"mediaId": {
+"type": "integer",
+"default": 0
+},
+"mediaType": {
+"type": "string",
+"default": "audio",
+"enum": [ "audio", "video" ]
+},
+"mediaTitle": {
+"type": "string",
+"default": ""
+}
+},
+"editorScript": "file:./index.js",
+"style": "file:./index.css",
+"viewScript": "file:./view.js"
+}

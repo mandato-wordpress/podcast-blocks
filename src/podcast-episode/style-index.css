@@ -1,0 +1,194 @@
+/**
+ * Podcast Blocks – Podcast Episode styles.
+ *
+ * Applied in both the block editor (editor canvas) and on the frontend.
+ * Editor-specific overrides use the .podcast-episode-editor wrapper selector.
+ */
+
+/* ── Player wrapper ── */
+
+.wp-block-podcast-blocks-podcast-episode {
+	margin: 1.5em 0;
+}
+
+/* Ensure the WP MediaElement player stretches full width */
+.wp-block-podcast-blocks-podcast-episode .wp-audio-shortcode,
+.wp-block-podcast-blocks-podcast-episode .wp-video-shortcode,
+.wp-block-podcast-blocks-podcast-episode .mejs-container,
+.wp-block-podcast-blocks-podcast-episode .podcast-episode-player {
+	width: 100% !important;
+	max-width: 100%;
+	display: block;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+/* ── Download / Subscribe link bar ── */
+.podcast-episode-links {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-top: 10px;
+	flex-wrap: wrap;
+}
+
+/* ── Subscribe modal ── */
+
+.pb-subscribe-modal {
+	display: none;
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	align-items: center;
+	justify-content: center;
+}
+
+.pb-subscribe-modal.is-open {
+	display: flex;
+}
+
+.pb-subscribe-modal-overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+	cursor: pointer;
+	-webkit-backdrop-filter: blur(3px);
+	backdrop-filter: blur(3px);
+}
+
+.pb-subscribe-modal-box {
+	position: relative;
+	z-index: 1;
+	background: #fff;
+	border-radius: 8px;
+	padding: 36px 28px 28px;
+	max-width: 480px;
+	width: calc(100% - 32px);
+	box-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 20px 60px -8px rgba(0, 0, 0, 0.3);
+}
+
+.pb-subscribe-modal-title {
+	font-size: 20px !important;
+	font-weight: 700 !important;
+	color: #111 !important;
+	margin: 0 0 6px 0 !important;
+	padding: 0 !important;
+	line-height: 1.3 !important;
+	border: none !important;
+}
+
+.pb-subscribe-modal-subtitle {
+	font-size: 14px;
+	color: #666;
+	margin: 0 0 20px;
+}
+
+.pb-subscribe-modal-close {
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	width: 30px;
+	height: 30px;
+	background: #f1f1f1;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	color: #555;
+	transition: background 0.15s, color 0.15s;
+	line-height: 1;
+}
+
+.pb-subscribe-modal-close:hover,
+.pb-subscribe-modal-close:focus-visible {
+	background: #e0e0e0;
+	color: #111;
+	outline: 2px solid #7c3aed;
+	outline-offset: 2px;
+}
+
+/* ── Service icon grid ── */
+
+.pb-subscribe-modal-services {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+	gap: 10px;
+}
+
+.pb-service {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	text-decoration: none;
+	color: #222;
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 1.3;
+	padding: 14px 8px 12px;
+	border-radius: 12px;
+	border: 1.5px solid transparent;
+	text-align: center;
+	transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.pb-service:hover,
+.pb-service:focus-visible {
+	background: #f6f5ff;
+	border-color: #ddd6fe;
+	transform: translateY(-2px);
+	outline: none;
+	color: #111;
+	text-decoration: none;
+}
+
+.pb-service-icon {
+	display: block;
+	line-height: 0;
+}
+
+.pb-service-icon svg {
+	width: 48px;
+	height: 48px;
+	display: block;
+}
+
+/* Prevent body scroll when modal is open */
+body.pb-modal-open {
+	overflow: hidden;
+}
+
+/* ── Editor canvas overrides ── */
+
+.podcast-episode-editor {
+	border: 1px dashed #c5c5c5;
+	border-radius: 6px;
+	padding: 16px;
+	background: #f8f9fa;
+}
+
+.podcast-episode-editor .podcast-episode-player {
+	width: 100%;
+	display: block;
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+.podcast-episode-editor .podcast-episode-player-video {
+	background: #000;
+	max-height: 360px;
+}
+
+.podcast-episode-editor .podcast-episode-editor-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 12px;
+	padding-top: 12px;
+	border-top: 1px solid #e0e0e0;
+}
