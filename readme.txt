@@ -3,7 +3,7 @@ Contributors: amandato
 Tags: podcast, gutenberg, blocks, itunes, apple
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 1.0.0
+Stable tag: 0.9.0
 Requires PHP: 8.1
 License: GPL-2.0-or-later
 Donate link: https://www.podcastblocks.com
@@ -36,6 +36,11 @@ ATTENTION: This version is intended for new podcasts. Migrating from an existing
 
 == Screenshots == 
 
+1. Podcast Bpocks' "Block" in WordPress Gutenberg editor
+2. Podcast Blocks settings confirming requirements
+3. Podcast Blocks settings with Podcast Subscribe Links
+4. Podcast Blocks episode in blog post page
+5. Podcast Blocks subscribe in-page popup
 
 == Frequently Asked Questions ==
 
@@ -81,8 +86,9 @@ Not currently. This version of Podcast Blocks is intended for a brand new podcas
 
 == Changelog ==
 
-= 1.0.0 =
+= 0.9.0 =
 
+* 2026-05-11
 * First public release of Podcast Blocks plugin.
 
 = 0.0.1 =
