@@ -134,6 +134,27 @@ function podcast_blocks_feed() {
 
 			$full_content = mb_substr( $full_content, 0, 10000 );
 
+			// When truncated, clean up any tag structures cut off mid-content.
+			if ( mb_strlen( $full_content ) === 10000 ) {
+				// Pass 1: trim to the last complete closing tag so no <p> or <li>
+				// is left hanging open.
+				if ( preg_match( '/^(.*<\/(?:p|li|ol|ul)>)/su', $full_content, $m ) ) {
+					$full_content = $m[1];
+				} else {
+					$full_content = '';
+				}
+
+				// Pass 2: remove any <ol>/<ul> whose closing tag was cut off.
+				foreach ( array( 'ol', 'ul' ) as $tag ) {
+					if ( substr_count( $full_content, '<' . $tag . '>' ) > substr_count( $full_content, '</' . $tag . '>' ) ) {
+						$pos = strrpos( $full_content, '<' . $tag . '>' );
+						if ( false !== $pos ) {
+							$full_content = substr( $full_content, 0, $pos );
+						}
+					}
+				}
+			}
+
 			// ── Enclosure data from WordPress meta ─────────────────────────
 			// The `enclosure` post meta is written by class-enclosure.php on
 			// save_post. Format: url\nfilesize\nmimetype
