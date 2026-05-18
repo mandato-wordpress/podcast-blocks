@@ -91,7 +91,6 @@ class Podcast_Blocks_Enclosure {
 	 */
 	public function add_itunes_namespace() {
 		echo 'xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"' . "\n\t";
-		echo 'xmlns:content="http://purl.org/rss/1.0/modules/content/"' . "\n\t";
 	}
 
 	/**
@@ -112,7 +111,6 @@ class Podcast_Blocks_Enclosure {
 		$artwork_url = $artwork_id ? wp_get_attachment_url( $artwork_id ) : '';
 
 		echo "\t" . '<itunes:author>' . esc_html( $author ) . '</itunes:author>' . "\n";
-		echo "\t" . '<itunes:summary><![CDATA[' . $description . ']]></itunes:summary>' . "\n";
 		echo "\t" . '<itunes:explicit>' . esc_html( $explicit ) . '</itunes:explicit>' . "\n";
 		echo "\t" . '<language>' . esc_html( $language ) . '</language>' . "\n";
 

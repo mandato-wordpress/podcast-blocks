@@ -49,20 +49,18 @@ function podcast_blocks_feed() {
 	?>
 <rss version="2.0"
 	xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
-	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:atom="http://www.w3.org/2005/Atom"
 >
 <channel>
 	<title><?php echo esc_html( $pb_title ); ?></title>
 	<link><?php echo esc_url( $pb_website ); ?></link>
-	<description><![CDATA[<?php echo $pb_desc; ?>]]></description>
+	<description><![CDATA[<?php echo mb_substr( $pb_desc, 0, 10000 ); ?>]]></description>
 	<language><?php echo esc_html( $pb_language ); ?></language>
 	<lastBuildDate><?php echo esc_html( $last_build ); ?></lastBuildDate>
 	<generator>Podcast Blocks <?php echo esc_html( PODCAST_BLOCKS_VERSION ); ?> (https://www.podcastblocks.com)</generator>
 	<atom:link href="<?php echo esc_url( $feed_url ); ?>" rel="self" type="application/rss+xml" />
 	<itunes:type>episodic</itunes:type>
 	<itunes:author><?php echo esc_html( $pb_author ); ?></itunes:author>
-	<itunes:summary><![CDATA[<?php echo $pb_desc; ?>]]></itunes:summary>
 	<itunes:explicit><?php echo esc_html( $pb_explicit ); ?></itunes:explicit>
 	<?php if ( $pb_art_url ) : ?><itunes:image href="<?php echo esc_url( $pb_art_url ); ?>" />
 	<?php endif; ?>
@@ -119,17 +117,7 @@ function podcast_blocks_feed() {
 			if ( empty( $excerpt ) ) {
 				$excerpt = wp_trim_words( wp_strip_all_tags( get_the_content() ), 55, '&hellip;' );
 			}
-
-			// ── Full post content (for feed readers / content:encoded) ─────
-			// Render blocks so that any non-podcast content in the post is
-			// included for feed reader clients. Block HTML is wrapped in CDATA
-			// or use the esc_html() function
-			// so it is valid XML.
-			ob_start();
-			the_content();
-			$full_content = ob_get_clean();
-
-			//$full_content = apply_filters( 'the_content', get_the_content() );
+			$excerpt = mb_substr( $excerpt, 0, 10000 );
 
 			// ── Enclosure data from WordPress meta ─────────────────────────
 			// The `enclosure` post meta is written by class-enclosure.php on
@@ -170,7 +158,6 @@ function podcast_blocks_feed() {
 		<title><?php echo esc_html( $post_title ); ?></title>
 		<link><?php echo esc_url( $permalink ); ?></link>
 		<description><![CDATA[<?php echo $excerpt; ?>]]></description>
-		<content:encoded><![CDATA[<?php echo $full_content; ?>]]></content:encoded>
 		<pubDate><?php echo esc_html( $pub_date ); ?></pubDate>
 		<guid isPermaLink="true"><?php echo esc_url( $permalink ); ?></guid>
 
@@ -184,7 +171,6 @@ function podcast_blocks_feed() {
 
 		<itunes:title><?php echo esc_html( $post_title ); ?></itunes:title>
 		<itunes:author><?php echo esc_html( $pb_author ); ?></itunes:author>
-		<itunes:summary><![CDATA[<?php echo $excerpt; ?>]]></itunes:summary>
 		<itunes:explicit><?php echo esc_html( $pb_explicit ); ?></itunes:explicit>
 		<?php if ( $episode_img ) : ?>
 		<itunes:image href="<?php echo esc_url( $episode_img ); ?>" />
