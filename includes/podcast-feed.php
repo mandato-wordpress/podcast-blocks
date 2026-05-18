@@ -109,15 +109,30 @@ function podcast_blocks_feed() {
 			$pub_date     = mysql2date( 'D, d M Y H:i:s +0000', get_post_time( 'Y-m-d H:i:s', true ), false );
 			$guid         = get_the_guid( $post_id );
 
-			// ── Excerpt / description ──────────────────────────────────────
-			// Use the manual excerpt if available, otherwise generate one from
-			// post content. wp_strip_all_tags() ensures plain text for RSS.
-			$excerpt = get_the_excerpt();
-			$excerpt = wp_strip_all_tags( $excerpt );
-			if ( empty( $excerpt ) ) {
-				$excerpt = wp_trim_words( wp_strip_all_tags( get_the_content() ), 55, '&hellip;' );
-			}
-			$excerpt = mb_substr( $excerpt, 0, 10000 );
+			// ── Episode description ────────────────────────────────────────
+			// Render the full post content, convert <a href> to markdown
+			// [title](link), keep only structural tags, then cap at 10,000 chars.
+			ob_start();
+			the_content();
+			$full_content = ob_get_clean();
+
+			$full_content = preg_replace_callback(
+				'/<a\s[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)<\/a>/si',
+				function( $matches ) {
+					$text = wp_strip_all_tags( $matches[2] );
+					return '[' . $text . '](' . $matches[1] . ')';
+				},
+				$full_content
+			);
+
+			$full_content = wp_kses( $full_content, array(
+				'p'  => array(),
+				'ol' => array(),
+				'ul' => array(),
+				'li' => array(),
+			) );
+
+			$full_content = mb_substr( $full_content, 0, 10000 );
 
 			// ── Enclosure data from WordPress meta ─────────────────────────
 			// The `enclosure` post meta is written by class-enclosure.php on
@@ -157,7 +172,7 @@ function podcast_blocks_feed() {
 	<item>
 		<title><?php echo esc_html( $post_title ); ?></title>
 		<link><?php echo esc_url( $permalink ); ?></link>
-		<description><![CDATA[<?php echo $excerpt; ?>]]></description>
+		<description><![CDATA[<?php echo $full_content; ?>]]></description>
 		<pubDate><?php echo esc_html( $pub_date ); ?></pubDate>
 		<guid isPermaLink="true"><?php echo esc_url( $permalink ); ?></guid>
 
