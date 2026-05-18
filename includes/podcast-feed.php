@@ -68,6 +68,9 @@ function podcast_blocks_format_description( $html, $limit ) {
 		}
 	}
 
+	// Prevent premature CDATA close sequences in the RSS output.
+	$content = str_replace( ']]>', '||>', $content );
+
 	return $content;
 }
 
