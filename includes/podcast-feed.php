@@ -111,7 +111,7 @@ function podcast_blocks_feed() {
 <channel>
 	<title><?php echo esc_html( $pb_title ); ?></title>
 	<link><?php echo esc_url( $pb_website ); ?></link>
-	<description><![CDATA[<?php echo mb_substr( $pb_desc, 0, 4000 ); ?>]]></description>
+	<description><![CDATA[<?php echo podcast_blocks_format_description( $pb_desc, 4000 ); ?>]]></description>
 	<language><?php echo esc_html( $pb_language ); ?></language>
 	<lastBuildDate><?php echo esc_html( $last_build ); ?></lastBuildDate>
 	<generator>Podcast Blocks <?php echo esc_html( PODCAST_BLOCKS_VERSION ); ?> (https://www.podcastblocks.com)</generator>
