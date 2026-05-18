@@ -112,7 +112,7 @@ class Podcast_Blocks_Enclosure {
 		$artwork_url = $artwork_id ? wp_get_attachment_url( $artwork_id ) : '';
 
 		echo "\t" . '<itunes:author>' . esc_html( $author ) . '</itunes:author>' . "\n";
-		echo "\t" . '<itunes:summary>' . esc_html( $description ) . '</itunes:summary>' . "\n";
+		echo "\t" . '<itunes:summary><![CDATA[' . $description . ']]></itunes:summary>' . "\n";
 		echo "\t" . '<itunes:explicit>' . esc_html( $explicit ) . '</itunes:explicit>' . "\n";
 		echo "\t" . '<language>' . esc_html( $language ) . '</language>' . "\n";
 

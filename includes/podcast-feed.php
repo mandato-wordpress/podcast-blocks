@@ -55,14 +55,14 @@ function podcast_blocks_feed() {
 <channel>
 	<title><?php echo esc_html( $pb_title ); ?></title>
 	<link><?php echo esc_url( $pb_website ); ?></link>
-	<description><?php echo esc_html( $pb_desc ); ?></description>
+	<description><![CDATA[<?php echo $pb_desc; ?>]]></description>
 	<language><?php echo esc_html( $pb_language ); ?></language>
 	<lastBuildDate><?php echo esc_html( $last_build ); ?></lastBuildDate>
 	<generator>Podcast Blocks <?php echo esc_html( PODCAST_BLOCKS_VERSION ); ?> (https://www.podcastblocks.com)</generator>
 	<atom:link href="<?php echo esc_url( $feed_url ); ?>" rel="self" type="application/rss+xml" />
 	<itunes:type>episodic</itunes:type>
 	<itunes:author><?php echo esc_html( $pb_author ); ?></itunes:author>
-	<itunes:summary><?php echo esc_html( $pb_desc ); ?></itunes:summary>
+	<itunes:summary><![CDATA[<?php echo $pb_desc; ?>]]></itunes:summary>
 	<itunes:explicit><?php echo esc_html( $pb_explicit ); ?></itunes:explicit>
 	<?php if ( $pb_art_url ) : ?><itunes:image href="<?php echo esc_url( $pb_art_url ); ?>" />
 	<?php endif; ?>
@@ -169,8 +169,8 @@ function podcast_blocks_feed() {
 	<item>
 		<title><?php echo esc_html( $post_title ); ?></title>
 		<link><?php echo esc_url( $permalink ); ?></link>
-		<description><?php echo esc_html( $excerpt ); ?></description>
-		<content:encoded><?php echo esc_html( $full_content ); ?></content:encoded>
+		<description><![CDATA[<?php echo $excerpt; ?>]]></description>
+		<content:encoded><![CDATA[<?php echo $full_content; ?>]]></content:encoded>
 		<pubDate><?php echo esc_html( $pub_date ); ?></pubDate>
 		<guid isPermaLink="true"><?php echo esc_url( $permalink ); ?></guid>
 
@@ -184,7 +184,7 @@ function podcast_blocks_feed() {
 
 		<itunes:title><?php echo esc_html( $post_title ); ?></itunes:title>
 		<itunes:author><?php echo esc_html( $pb_author ); ?></itunes:author>
-		<itunes:summary><?php echo esc_html( $excerpt ); ?></itunes:summary>
+		<itunes:summary><![CDATA[<?php echo $excerpt; ?>]]></itunes:summary>
 		<itunes:explicit><?php echo esc_html( $pb_explicit ); ?></itunes:explicit>
 		<?php if ( $episode_img ) : ?>
 		<itunes:image href="<?php echo esc_url( $episode_img ); ?>" />
