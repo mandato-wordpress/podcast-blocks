@@ -18,6 +18,60 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Format HTML content for an RSS <description> field.
+ *
+ * Pipeline: convert <a href> to Markdown [title](url) → strip all tags except
+ * <p>/<ol>/<ul>/<li> → truncate to $limit chars → remove any tag structure
+ * cut off by truncation.
+ *
+ * See SMART_DESC.md for the full truncation scenario table.
+ *
+ * @param string $html  Raw HTML.
+ * @param int    $limit Character limit.
+ * @return string
+ */
+function podcast_blocks_format_description( $html, $limit ) {
+	$content = preg_replace_callback(
+		'/<a\s[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)<\/a>/si',
+		function( $matches ) {
+			$text = wp_strip_all_tags( $matches[2] );
+			return '[' . $text . '](' . $matches[1] . ')';
+		},
+		$html
+	);
+
+	$content = wp_kses( $content, array(
+		'p'  => array(),
+		'ol' => array(),
+		'ul' => array(),
+		'li' => array(),
+	) );
+
+	$content = mb_substr( $content, 0, $limit );
+
+	if ( mb_strlen( $content ) === $limit ) {
+		// Pass 1: trim to the last complete closing tag.
+		if ( preg_match( '/^(.*<\/(?:p|li|ol|ul)>)/su', $content, $m ) ) {
+			$content = $m[1];
+		} else {
+			$content = '';
+		}
+
+		// Pass 2: remove any <ol>/<ul> whose closing tag was cut off.
+		foreach ( array( 'ol', 'ul' ) as $tag ) {
+			if ( substr_count( $content, '<' . $tag . '>' ) > substr_count( $content, '</' . $tag . '>' ) ) {
+				$pos = strrpos( $content, '<' . $tag . '>' );
+				if ( false !== $pos ) {
+					$content = substr( $content, 0, $pos );
+				}
+			}
+		}
+	}
+
+	return $content;
+}
+
+/**
  * podcast blocks RSS feed
  */
 function podcast_blocks_feed() {
@@ -54,7 +108,7 @@ function podcast_blocks_feed() {
 <channel>
 	<title><?php echo esc_html( $pb_title ); ?></title>
 	<link><?php echo esc_url( $pb_website ); ?></link>
-	<description><![CDATA[<?php echo mb_substr( $pb_desc, 0, 10000 ); ?>]]></description>
+	<description><![CDATA[<?php echo mb_substr( $pb_desc, 0, 4000 ); ?>]]></description>
 	<language><?php echo esc_html( $pb_language ); ?></language>
 	<lastBuildDate><?php echo esc_html( $last_build ); ?></lastBuildDate>
 	<generator>Podcast Blocks <?php echo esc_html( PODCAST_BLOCKS_VERSION ); ?> (https://www.podcastblocks.com)</generator>
@@ -110,50 +164,9 @@ function podcast_blocks_feed() {
 			$guid         = get_the_guid( $post_id );
 
 			// ── Episode description ────────────────────────────────────────
-			// Render the full post content, convert <a href> to markdown
-			// [title](link), keep only structural tags, then cap at 10,000 chars.
 			ob_start();
 			the_content();
-			$full_content = ob_get_clean();
-
-			$full_content = preg_replace_callback(
-				'/<a\s[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)<\/a>/si',
-				function( $matches ) {
-					$text = wp_strip_all_tags( $matches[2] );
-					return '[' . $text . '](' . $matches[1] . ')';
-				},
-				$full_content
-			);
-
-			$full_content = wp_kses( $full_content, array(
-				'p'  => array(),
-				'ol' => array(),
-				'ul' => array(),
-				'li' => array(),
-			) );
-
-			$full_content = mb_substr( $full_content, 0, 10000 );
-
-			// When truncated, clean up any tag structures cut off mid-content.
-			if ( mb_strlen( $full_content ) === 10000 ) {
-				// Pass 1: trim to the last complete closing tag so no <p> or <li>
-				// is left hanging open.
-				if ( preg_match( '/^(.*<\/(?:p|li|ol|ul)>)/su', $full_content, $m ) ) {
-					$full_content = $m[1];
-				} else {
-					$full_content = '';
-				}
-
-				// Pass 2: remove any <ol>/<ul> whose closing tag was cut off.
-				foreach ( array( 'ol', 'ul' ) as $tag ) {
-					if ( substr_count( $full_content, '<' . $tag . '>' ) > substr_count( $full_content, '</' . $tag . '>' ) ) {
-						$pos = strrpos( $full_content, '<' . $tag . '>' );
-						if ( false !== $pos ) {
-							$full_content = substr( $full_content, 0, $pos );
-						}
-					}
-				}
-			}
+			$full_content = podcast_blocks_format_description( ob_get_clean(), 10000 );
 
 			// ── Enclosure data from WordPress meta ─────────────────────────
 			// The `enclosure` post meta is written by class-enclosure.php on
