@@ -8,7 +8,7 @@ The Smart Podcast Show Notes feature uses the Apple Podcasts character limit and
 
 1. **Convert links** — `<a href="url">text</a>` is rewritten to `[text](url)` so hyperlinks survive in plain-text RSS readers. Apple podcasts will make these links clickable.
 2. **Strip tags** —Removes every HTML tag except `<p>`, `<ol>`, `<ul>`, and `<li>`. Attributes are stripped from allowed tags.
-3. **Normalize whitespace** — Collapses multiple consecutive whitespace characters into a single space, and trims leading/trailing whitespace.
+3. **Normalize inter-tag whitespace** — Collapses whitespace between adjacent HTML tags, and inserts a newline after each `</p>`.
 4. **Truncate** — Caps the string at the configured character limit.
 5. **Clean up incomplete tags** — Runs when the string was actually truncated (see table below).
 
