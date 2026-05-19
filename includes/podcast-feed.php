@@ -50,6 +50,9 @@ function podcast_blocks_format_description( $html, $limit ) {
 	// Collapse whitespace (including blank lines) between tags.
 	$content = preg_replace( '/>\s+</', '><', $content );
 
+	// Restore a single newline after each closing paragraph tag.
+	$content = str_replace( '</p>', "</p>\n", $content );
+
 	$content = mb_substr( $content, 0, $limit );
 
 	if ( mb_strlen( $content ) === $limit ) {
