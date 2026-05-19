@@ -18,6 +18,70 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Format HTML content for an RSS <description> field.
+ *
+ * Pipeline: convert <a href> to Markdown [title](url) → strip all tags except
+ * <p>/<ol>/<ul>/<li> → normalize whitespace between tags and restore a single
+ * newline after each </p> → truncate to $limit chars → remove any tag
+ * structure cut off by truncation.
+ *
+ * See SMART_SHOW_NOTES.md for the full truncation scenario table.
+ *
+ * @param string $html  Raw HTML.
+ * @param int    $limit Character limit.
+ * @return string
+ */
+function podcast_blocks_format_description( $html, $limit ) {
+	$content = preg_replace_callback(
+		'/<a\s[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)<\/a>/si',
+		function( $matches ) {
+			$text = wp_strip_all_tags( $matches[2] );
+			return '[' . $text . '](' . $matches[1] . ')';
+		},
+		$html
+	);
+
+	$content = wp_kses( $content, array(
+		'p'  => array(),
+		'ol' => array(),
+		'ul' => array(),
+		'li' => array(),
+	) );
+
+	// Collapse whitespace (including blank lines) between tags.
+	$content = preg_replace( '/>\s+</', '><', $content );
+
+	// Restore a single newline after each closing paragraph tag.
+	$content = str_replace( '</p>', "</p>\n", $content );
+
+	$content = mb_substr( $content, 0, $limit );
+
+	if ( mb_strlen( $content ) === $limit ) {
+		// Pass 1: trim to the last complete closing tag.
+		if ( preg_match( '/^(.*<\/(?:p|li|ol|ul)>)/su', $content, $m ) ) {
+			$content = $m[1];
+		} else {
+			$content = '';
+		}
+
+		// Pass 2: remove any <ol>/<ul> whose closing tag was cut off.
+		foreach ( array( 'ol', 'ul' ) as $tag ) {
+			if ( substr_count( $content, '<' . $tag . '>' ) > substr_count( $content, '</' . $tag . '>' ) ) {
+				$pos = strrpos( $content, '<' . $tag . '>' );
+				if ( false !== $pos ) {
+					$content = substr( $content, 0, $pos );
+				}
+			}
+		}
+	}
+
+	// Prevent premature CDATA close sequences in the RSS output.
+	$content = str_replace( ']]>', '||>', $content );
+
+	return $content;
+}
+
+/**
  * podcast blocks RSS feed
  */
 function podcast_blocks_feed() {
@@ -49,20 +113,18 @@ function podcast_blocks_feed() {
 	?>
 <rss version="2.0"
 	xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
-	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:atom="http://www.w3.org/2005/Atom"
 >
 <channel>
 	<title><?php echo esc_html( $pb_title ); ?></title>
 	<link><?php echo esc_url( $pb_website ); ?></link>
-	<description><?php echo esc_html( $pb_desc ); ?></description>
+	<description><![CDATA[<?php echo podcast_blocks_format_description( $pb_desc, 4000 ); ?>]]></description>
 	<language><?php echo esc_html( $pb_language ); ?></language>
 	<lastBuildDate><?php echo esc_html( $last_build ); ?></lastBuildDate>
 	<generator>Podcast Blocks <?php echo esc_html( PODCAST_BLOCKS_VERSION ); ?> (https://www.podcastblocks.com)</generator>
 	<atom:link href="<?php echo esc_url( $feed_url ); ?>" rel="self" type="application/rss+xml" />
 	<itunes:type>episodic</itunes:type>
 	<itunes:author><?php echo esc_html( $pb_author ); ?></itunes:author>
-	<itunes:summary><?php echo esc_html( $pb_desc ); ?></itunes:summary>
 	<itunes:explicit><?php echo esc_html( $pb_explicit ); ?></itunes:explicit>
 	<?php if ( $pb_art_url ) : ?><itunes:image href="<?php echo esc_url( $pb_art_url ); ?>" />
 	<?php endif; ?>
@@ -111,25 +173,10 @@ function podcast_blocks_feed() {
 			$pub_date     = mysql2date( 'D, d M Y H:i:s +0000', get_post_time( 'Y-m-d H:i:s', true ), false );
 			$guid         = get_the_guid( $post_id );
 
-			// ── Excerpt / description ──────────────────────────────────────
-			// Use the manual excerpt if available, otherwise generate one from
-			// post content. wp_strip_all_tags() ensures plain text for RSS.
-			$excerpt = get_the_excerpt();
-			$excerpt = wp_strip_all_tags( $excerpt );
-			if ( empty( $excerpt ) ) {
-				$excerpt = wp_trim_words( wp_strip_all_tags( get_the_content() ), 55, '&hellip;' );
-			}
-
-			// ── Full post content (for feed readers / content:encoded) ─────
-			// Render blocks so that any non-podcast content in the post is
-			// included for feed reader clients. Block HTML is wrapped in CDATA
-			// or use the esc_html() function
-			// so it is valid XML.
+			// ── Episode description ────────────────────────────────────────
 			ob_start();
 			the_content();
-			$full_content = ob_get_clean();
-
-			//$full_content = apply_filters( 'the_content', get_the_content() );
+			$full_content = podcast_blocks_format_description( ob_get_clean(), 10000 );
 
 			// ── Enclosure data from WordPress meta ─────────────────────────
 			// The `enclosure` post meta is written by class-enclosure.php on
@@ -169,8 +216,7 @@ function podcast_blocks_feed() {
 	<item>
 		<title><?php echo esc_html( $post_title ); ?></title>
 		<link><?php echo esc_url( $permalink ); ?></link>
-		<description><?php echo esc_html( $excerpt ); ?></description>
-		<content:encoded><?php echo esc_html( $full_content ); ?></content:encoded>
+		<description><![CDATA[<?php echo $full_content; ?>]]></description>
 		<pubDate><?php echo esc_html( $pub_date ); ?></pubDate>
 		<guid isPermaLink="true"><?php echo esc_url( $permalink ); ?></guid>
 
@@ -184,7 +230,6 @@ function podcast_blocks_feed() {
 
 		<itunes:title><?php echo esc_html( $post_title ); ?></itunes:title>
 		<itunes:author><?php echo esc_html( $pb_author ); ?></itunes:author>
-		<itunes:summary><?php echo esc_html( $excerpt ); ?></itunes:summary>
 		<itunes:explicit><?php echo esc_html( $pb_explicit ); ?></itunes:explicit>
 		<?php if ( $episode_img ) : ?>
 		<itunes:image href="<?php echo esc_url( $episode_img ); ?>" />

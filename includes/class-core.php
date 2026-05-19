@@ -185,6 +185,10 @@ class Podcast_Blocks_Core {
             return '';
         }
 
+        if ( is_feed() ) {
+            return ''; // Don't render the player in the feed
+        }
+
         $options  = get_option( 'podcast_blocks_options', array() );
         // $subscribe_url  = get_option( 'podcast_subscribe_url', '' ); // Future option
         $subscribe_url = '';
