@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * <p>/<ol>/<ul>/<li> → truncate to $limit chars → remove any tag structure
  * cut off by truncation.
  *
- * See SMART_DESC.md for the full truncation scenario table.
+ * See SMART_SHOW_NOTES.md for the full truncation scenario table.
  *
  * @param string $html  Raw HTML.
  * @param int    $limit Character limit.
