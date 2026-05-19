@@ -21,8 +21,9 @@ defined( 'ABSPATH' ) || exit;
  * Format HTML content for an RSS <description> field.
  *
  * Pipeline: convert <a href> to Markdown [title](url) → strip all tags except
- * <p>/<ol>/<ul>/<li> → truncate to $limit chars → remove any tag structure
- * cut off by truncation.
+ * <p>/<ol>/<ul>/<li> → normalize whitespace between tags and restore a single
+ * newline after each </p> → truncate to $limit chars → remove any tag
+ * structure cut off by truncation.
  *
  * See SMART_SHOW_NOTES.md for the full truncation scenario table.
  *
