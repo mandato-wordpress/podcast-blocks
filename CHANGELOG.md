@@ -17,7 +17,7 @@ New Smart Podcast Show Notes feature.
 
 - **New Feature**: Added New Smart Podcast Show Notes feature, show notes are now formatted for better readability on the most popular podcast platforms and applications.
 
-## [0.0.1] – 2026-05-11
+## [0.9.0] – 2026-05-11
 
 First public release of Podcast blocks, available on the WordPress plugin repository.
 
