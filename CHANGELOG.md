@@ -11,7 +11,16 @@ This project adheres somewhat to [Semantic Versioning](https://semver.org/spec/v
 
 ---
 
-## [0.0.1] – 2026-04-TBD
+## [0.9.1] – 2026-05-18
 
-First release of Podcast blocks
+New Smart Podcast Show Notes feature.
 
+- **New Feature**: Added New Smart Podcast Show Notes feature, show notes are now formatted for better readability on the most popular podcast platforms and applications.
+
+## [0.0.1] – 2026-05-11
+
+First public release of Podcast blocks, available on the WordPress plugin repository.
+
+## [0.0.1] – 2026-04-16
+
+First release of Podcast blocks, submitted to WordPress.org for review.

@@ -25,6 +25,7 @@ ATTENTION: This version is intended for new podcasts. Migrating from an existing
 * **Apple Podcasts RSS extensions** — The plugin automatically adds the iTunes XML namespace and channel-level tags (author, owner, artwork, categories, explicit flag) to your RSS2 feed so your podcast appears correctly in Apple Podcasts, Spotify, and other podcast directories.
 * **Settings page** — Configure podcast title, description, author, contact email, website URL, language, explicit-content flag, primary and secondary iTunes categories, and your show artwork — all from a dedicated *Podcast Blocks* menu in wp-admin.
 * **Easy Show artwork upload** — Upload a square show image (600×600 to 1400×1400 px, PNG or JPG) via the native WordPress media uploader. A size warning is shown if the selected image is outside the Apple Podcasts recommended dimensions.
+* **Smart Podcast Show Notes** — Show notes are now formatted with only the appropriate HTML tags for Apple podcasts, links are exposed so they can be clicked in most applications, and paragraphs are separated with new lines consistently.
 
 == Installation ==
 
@@ -86,9 +87,15 @@ Not currently. This version of Podcast Blocks is intended for a brand new podcas
 
 == Changelog ==
 
+= 0.9.1 =
+
+* Released 2026-05-18
+* Added new "Smart Podcast Show Notes" feature. Show notes are now formatted for better readability on the most popular podcast platforms and applications.
+
+
 = 0.9.0 =
 
-* 2026-05-11
+* Released 2026-05-11
 * First public release of Podcast Blocks plugin.
 
 = 0.0.1 =
