@@ -47,6 +47,9 @@ function podcast_blocks_format_description( $html, $limit ) {
 		'li' => array(),
 	) );
 
+	// Collapse whitespace (including blank lines) between tags.
+	$content = preg_replace( '/>\s+</', '><', $content );
+
 	$content = mb_substr( $content, 0, $limit );
 
 	if ( mb_strlen( $content ) === $limit ) {
