@@ -11,11 +11,15 @@ This project adheres somewhat to [Semantic Versioning](https://semver.org/spec/v
 
 ---
 
-## [0.9.1] – 2026-05-18
+## [0.9.2] – 2026-05-18
 
 New Smart Podcast Show Notes feature.
 
 - **New Feature**: Added New Smart Podcast Show Notes feature, show notes are now formatted for better readability on the most popular podcast platforms and applications.
+
+## [0.9.1] – 2026-05-18
+
+Release skipped.
 
 ## [0.9.0] – 2026-05-11
 
