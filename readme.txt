@@ -3,7 +3,7 @@ Contributors: amandato
 Tags: podcast, gutenberg, blocks, itunes, apple
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 0.9.0
+Stable tag: 0.9.2
 Requires PHP: 8.1
 License: GPL-2.0-or-later
 Donate link: https://www.podcastblocks.com
@@ -87,11 +87,14 @@ Not currently. This version of Podcast Blocks is intended for a brand new podcas
 
 == Changelog ==
 
-= 0.9.1 =
+= 0.9.2 =
 
 * Released 2026-05-18
 * Added new "Smart Podcast Show Notes" feature. Show notes are now formatted for better readability on the most popular podcast platforms and applications.
 
+= 0.9.1 =
+
+Release skipped.
 
 = 0.9.0 =
 
