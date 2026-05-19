@@ -185,7 +185,7 @@ class Podcast_Blocks_Core {
             return '';
         }
 
-        if( is_feed() ) {
+        if ( is_feed() ) {
             return ''; // Don't render the player in the feed
         }
 
