@@ -11,6 +11,10 @@ This project adheres somewhat to [Semantic Versioning](https://semver.org/spec/v
 
 ---
 
+## [0.9.3] – 2026-05-24
+
+- Tested up to WordPress 7.0.
+
 ## [0.9.2] – 2026-05-18
 
 New Smart Podcast Show Notes feature.

@@ -2,8 +2,8 @@
 Contributors: amandato
 Tags: podcast, gutenberg, blocks, itunes, apple
 Requires at least: 6.5
-Tested up to: 6.9
-Stable tag: 0.9.2
+Tested up to: 7.0
+Stable tag: 0.9.3
 Requires PHP: 8.1
 License: GPL-2.0-or-later
 Donate link: https://www.podcastblocks.com
@@ -86,6 +86,11 @@ The artwork is uploaded to the WordPress media library and referenced by attachm
 Not currently. This version of Podcast Blocks is intended for a brand new podcast.
 
 == Changelog ==
+
+= 0.9.3 =
+
+* Released 2026-05-24
+* Tested up to WordPress 7.0
 
 = 0.9.2 =
 

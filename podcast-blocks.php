@@ -1,20 +1,21 @@
 <?php
-/**
- * Plugin Name:       Podcast Blocks
- * Plugin URI:        https://www.podcastblocks.com/
- * Description:       Create and manage podcast episodes using Gutenberg blocks. Includes Apple Podcasts-compatible RSS feed.
- * Version:           0.9.2
- * Requires at least: 6.5
- * Requires PHP:      8.1
- * Author:            Angelo Mandato
- * License:           GPL-2.0-or-later
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       podcast-blocks
+/*
+ Plugin Name:       Podcast Blocks
+ Plugin URI:        https://www.podcastblocks.com/
+ Description:       Create and manage podcast episodes using Gutenberg blocks. Includes Apple Podcasts-compatible RSS feed.
+ Version:           0.9.3
+ Requires at least: 6.5
+ Tested up to:      7.0
+ Requires PHP:      8.1
+ Author:            Angelo Mandato
+ License:           GPL-2.0-or-later
+ License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ Text Domain:       podcast-blocks
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PODCAST_BLOCKS_VERSION', '0.9.2' );
+define( 'PODCAST_BLOCKS_VERSION', '0.9.3' );
 define( 'PODCAST_BLOCKS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PODCAST_BLOCKS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
