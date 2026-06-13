@@ -259,9 +259,12 @@ function podcast_blocks_feed() {
 		<?php if ( $duration ) : ?>
 		<itunes:duration><?php echo esc_html( $duration ); ?></itunes:duration>
 		<?php endif; ?>
-		<?php if ( $transcript_url ) : ?>
+		<?php
+			$transcript_escaped = $transcript_url ? esc_url( $transcript_url ) : '';
+		?>
+		<?php if ( $transcript_escaped ) : ?>
 		<podcast:transcript
-			url="<?php echo esc_url( $transcript_url ); ?>"
+			url="<?php echo $transcript_escaped; // phpcs:ignore WordPress.Security.EscapeOutput -- already escaped ?>"
 			type="<?php echo esc_attr( podcast_blocks_transcript_mime( $transcript_url ) ); ?>"
 		/>
 		<?php endif; ?>
