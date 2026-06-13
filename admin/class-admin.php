@@ -66,16 +66,17 @@ class Podcast_Blocks_Admin {
 		);
 
 		$info_fields = array(
-			'title'              => __( 'Podcast Title', 'podcast-blocks' ),
-			'description'        => __( 'Podcast Description', 'podcast-blocks' ),
-			'author'             => __( 'Author / Artist Name', 'podcast-blocks' ),
-			'email'              => __( 'Contact Email', 'podcast-blocks' ),
-			'website'            => __( 'Website URL', 'podcast-blocks' ),
-			'language'           => __( 'Language (e.g. en-US)', 'podcast-blocks' ),
-			'explicit'           => __( 'Explicit Content', 'podcast-blocks' ),
-			'category_primary'   => __( 'Primary Category', 'podcast-blocks' ) . ' <span class="required">'. __('required', 'podcast-blocks') .'</span>',
-			'category_secondary' => __( 'Secondary Category', 'podcast-blocks' ),
-			'artwork_id'         => __( 'Podcast Artwork', 'podcast-blocks' ) . ' <span class="required">'. __('required', 'podcast-blocks') .'</span>',
+			'title'                => __( 'Podcast Title', 'podcast-blocks' ),
+			'description'          => __( 'Podcast Description', 'podcast-blocks' ),
+			'author'               => __( 'Author / Artist Name', 'podcast-blocks' ),
+			'email'                => __( 'Contact Email', 'podcast-blocks' ),
+			'website'              => __( 'Website URL', 'podcast-blocks' ),
+			'language'             => __( 'Language (e.g. en-US)', 'podcast-blocks' ),
+			'explicit'             => __( 'Explicit Content', 'podcast-blocks' ),
+			'category_primary'     => __( 'Primary Category', 'podcast-blocks' ) . ' <span class="required">'. __('required', 'podcast-blocks') .'</span>',
+			'category_secondary'   => __( 'Secondary Category', 'podcast-blocks' ),
+			'artwork_id'           => __( 'Podcast Artwork', 'podcast-blocks' ) . ' <span class="required">'. __('required', 'podcast-blocks') .'</span>',
+			'applepodcasts_verify' => __( 'Apple Podcasts Verify Token', 'podcast-blocks' ),
 		);
 
 		foreach ( $info_fields as $key => $label ) {
@@ -123,7 +124,7 @@ class Podcast_Blocks_Admin {
 		}
 		
 		// Sanitize text fields
-		$text_fields = array( 'title', 'author', 'language', 'category_primary', 'category_secondary' );
+		$text_fields = array( 'title', 'author', 'language', 'category_primary', 'category_secondary', 'applepodcasts_verify' );
 		foreach ( $text_fields as $field ) {
 			$sanitized[ $field ] = isset( $input[ $field ] ) ? sanitize_text_field( $input[ $field ] ) : '';
 		}
@@ -296,6 +297,20 @@ class Podcast_Blocks_Admin {
 			</p>
 		</div>
 		<?php
+	}
+
+	public function render_field_applepodcasts_verify() {
+		printf(
+			'<input type="text" name="%s[applepodcasts_verify]" value="%s" class="regular-text" placeholder="e.g. ABC123…" />',
+			esc_attr( self::OPTION_NAME ),
+			esc_attr( $this->get_option( 'applepodcasts_verify' ) )
+		);
+		echo '<p class="description">' . esc_html__( 'Paste the verification token from Apple Podcasts Connect to confirm ownership of your podcast feed.', 'podcast-blocks' ) . '</p>';
+		$link = 'https://podcasters.apple.com/support/1626-add-podcast-to-apple-podcasts';
+		echo '<p class="description">'
+			. '<a href="' . esc_url( $link ) . '" target="_blank">'
+			. esc_html__( 'How to get your Apple Podcasts verification token', 'podcast-blocks' )
+			. '</a></p>';
 	}
 
 	public function render_subscribe_section_intro() {

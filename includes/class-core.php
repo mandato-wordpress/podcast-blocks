@@ -95,6 +95,35 @@ class Podcast_Blocks_Core {
                 'default' => 0,
             ) )
         );
+
+        register_post_meta(
+            'post',
+            '_podcast_transcript_url',
+            array_merge( $shared_args, array(
+                'type'    => 'string',
+                'default' => '',
+            ) )
+        );
+
+        register_post_meta(
+            'post',
+            '_podcast_transcript_id',
+            array_merge( $shared_args, array(
+                'type'    => 'integer',
+                'default' => 0,
+            ) )
+        );
+
+        add_filter( 'upload_mimes', array( $this, 'allow_transcript_mimes' ) );
+    }
+
+    /**
+     * Allow SRT and VTT transcript files to be uploaded via the media library.
+     */
+    public function allow_transcript_mimes( $mimes ) {
+        $mimes['srt'] = 'application/x-subrip';
+        $mimes['vtt'] = 'text/vtt';
+        return $mimes;
     }
 
     /**

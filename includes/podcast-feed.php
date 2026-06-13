@@ -82,6 +82,21 @@ function podcast_blocks_format_description( $html, $limit ) {
 }
 
 /**
+ * Return the MIME type for a transcript file URL based on its extension.
+ *
+ * @param string $url Transcript file URL.
+ * @return string MIME type string.
+ */
+function podcast_blocks_transcript_mime( $url ) {
+	$ext = strtolower( pathinfo( (string) wp_parse_url( $url, PHP_URL_PATH ), PATHINFO_EXTENSION ) );
+	$map = array(
+		'srt' => 'application/x-subrip',
+		'vtt' => 'text/vtt',
+	);
+	return isset( $map[ $ext ] ) ? $map[ $ext ] : 'text/plain';
+}
+
+/**
  * podcast blocks RSS feed
  */
 function podcast_blocks_feed() {
@@ -102,8 +117,9 @@ function podcast_blocks_feed() {
 	$pb_cat_p    = ! empty( $podcast_blocks_options['category_primary'] )   ? $podcast_blocks_options['category_primary']   : '';
 	$pb_cat2     = ! empty( $podcast_blocks_options['category_secondary'] ) ? $podcast_blocks_options['category_secondary'] : '';
 	$pb_cat_s    = ! empty( $podcast_blocks_options['category_secondary'] ) ? $podcast_blocks_options['category_secondary'] : '';
-	$pb_art_id   = ! empty( $podcast_blocks_options['artwork_id'] )         ? absint( $podcast_blocks_options['artwork_id'] ) : 0;
-	$pb_art_url  = $pb_art_id ? wp_get_attachment_url( $pb_art_id ) : '';
+	$pb_art_id      = ! empty( $podcast_blocks_options['artwork_id'] )            ? absint( $podcast_blocks_options['artwork_id'] ) : 0;
+	$pb_art_url     = $pb_art_id ? wp_get_attachment_url( $pb_art_id ) : '';
+	$pb_apple_verify = ! empty( $podcast_blocks_options['applepodcasts_verify'] ) ? $podcast_blocks_options['applepodcasts_verify'] : '';
 	$feed_url   = get_feed_link( 'podcast' );
 	$last_build = mysql2date( 'D, d M Y H:i:s +0000', get_lastpostmodified( 'GMT' ), false );
 
@@ -114,6 +130,7 @@ function podcast_blocks_feed() {
 <rss version="2.0"
 	xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
 	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:podcast="https://podcastindex.org/namespace/1.0"
 >
 <channel>
 	<title><?php echo esc_html( $pb_title ); ?></title>
@@ -124,6 +141,8 @@ function podcast_blocks_feed() {
 	<generator>Podcast Blocks <?php echo esc_html( PODCAST_BLOCKS_VERSION ); ?> (https://www.podcastblocks.com)</generator>
 	<atom:link href="<?php echo esc_url( $feed_url ); ?>" rel="self" type="application/rss+xml" />
 	<itunes:type>episodic</itunes:type>
+	<?php if ( $pb_apple_verify ) : ?><itunes:applepodcastsverify><?php echo esc_html( $pb_apple_verify ); ?></itunes:applepodcastsverify>
+	<?php endif; ?>
 	<itunes:author><?php echo esc_html( $pb_author ); ?></itunes:author>
 	<itunes:explicit><?php echo esc_html( $pb_explicit ); ?></itunes:explicit>
 	<?php if ( $pb_art_url ) : ?><itunes:image href="<?php echo esc_url( $pb_art_url ); ?>" />
@@ -211,6 +230,9 @@ function podcast_blocks_feed() {
 			// ── Optional itunes:duration from post meta ────────────────────
 			// Stored as H:MM:SS or seconds. Output only if the meta is set.
 			$duration = get_post_meta( $post_id, '_podcast_episode_duration', true );
+
+			// ── Transcript (podcast namespace) ─────────────────────────────
+			$transcript_url = get_post_meta( $post_id, '_podcast_transcript_url', true );
 		?>
 
 	<item>
@@ -236,6 +258,12 @@ function podcast_blocks_feed() {
 		<?php endif; ?>
 		<?php if ( $duration ) : ?>
 		<itunes:duration><?php echo esc_html( $duration ); ?></itunes:duration>
+		<?php endif; ?>
+		<?php if ( $transcript_url ) : ?>
+		<podcast:transcript
+			url="<?php echo esc_url( $transcript_url ); ?>"
+			type="<?php echo esc_attr( podcast_blocks_transcript_mime( $transcript_url ) ); ?>"
+		/>
 		<?php endif; ?>
 	</item>
 	<?php endwhile; ?>
