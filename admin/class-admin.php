@@ -306,7 +306,7 @@ class Podcast_Blocks_Admin {
 			esc_attr( $this->get_option( 'applepodcasts_verify' ) )
 		);
 		echo '<p class="description">' . esc_html__( 'Paste the verification token from Apple Podcasts Connect to confirm ownership of your podcast feed.', 'podcast-blocks' ) . '</p>';
-		$link = 'https://podcasters.apple.com/support/1626-add-podcast-to-apple-podcasts';
+		$link = 'https://podcasters.apple.com/support/5497-claim-your-show';
 		echo '<p class="description">'
 			. '<a href="' . esc_url( $link ) . '" target="_blank" rel="noopener noreferrer">'
 			. esc_html__( 'How to get your Apple Podcasts verification token', 'podcast-blocks' )

@@ -115,7 +115,32 @@ class Podcast_Blocks_Core {
         );
 
         add_filter( 'upload_mimes', array( $this, 'allow_transcript_mimes' ) );
+        add_filter( 'wp_check_filetype_and_ext', array( $this, 'wp_check_filetype_and_ext' ), 10, 4 );
     }
+
+    /**
+     * Modify MIME type validation for SRT and VTT transcript files.
+     */
+    public function wp_check_filetype_and_ext( $data, $file, $filename, $mimes ) {
+        // If WordPress has already approved the file, do nothing
+        if ( ! empty( $data['ext'] ) && ! empty( $data['type'] ) ) {
+            return $data;
+        }
+
+        // Get the file extension
+        $file_ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+
+        // Target only .srt and .vtt files
+        if ( in_array( $file_ext, array( 'srt', 'vtt' ), true ) ) {
+            $data['ext']  = $file_ext;
+            $data['type'] = ( $file_ext === 'srt' ) ? 'application/x-subrip' : 'text/vtt';
+            $data['proper_filename'] = false; // Prevents WordPress from renaming it
+            $data['proper_filename'] = sanitize_file_name( $_FILES['my_file']['name'] );
+        }
+
+        return $data;
+    }
+    
 
     /**
      * Allow SRT and VTT transcript files to be uploaded via the media library.

@@ -3,7 +3,7 @@ Contributors: amandato
 Tags: podcast, gutenberg, blocks, itunes, apple
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 0.9.3
+Stable tag: 0.9.4
 Requires PHP: 8.1
 License: GPL-2.0-or-later
 Donate link: https://www.podcastblocks.com
@@ -81,11 +81,21 @@ The plugin stores one enclosure per post (the most recently saved block's media 
 
 The artwork is uploaded to the WordPress media library and referenced by attachment ID, so it benefits from all standard WordPress image management and CDN offloading.
 
+= Are transcripts (VTT/SRT) supported? =
+
+Yes. You can upload VTT or SRT transcript files.
+
 = Can I migrate to your plugin from another Podcasting plugin? =
 
 Not currently. This version of Podcast Blocks is intended for a brand new podcast.
 
 == Changelog ==
+
+= 0.9.4 =
+
+* Released 2026-06-27
+* Added Apple Podcasts Verify Token to the Podcast block settings, allowing users to verify their podcast ownership with Apple Podcasts.
+* Allow SRT and VTT transcript files to be uploaded via the media library
 
 = 0.9.3 =
 

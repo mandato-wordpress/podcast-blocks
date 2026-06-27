@@ -241,33 +241,27 @@ function podcast_blocks_feed() {
 		<description><![CDATA[<?php echo $full_content; ?>]]></description>
 		<pubDate><?php echo esc_html( $pub_date ); ?></pubDate>
 		<guid isPermaLink="true"><?php echo esc_url( $permalink ); ?></guid>
-
-		<?php if ( $enc_url ) : ?>
-		<enclosure
+<?php if ( $enc_url ) : ?>		<enclosure
 			url="<?php echo esc_url( $enc_url ); ?>"
 			length="<?php echo esc_attr( $enc_length ); ?>"
 			type="<?php echo esc_attr( $enc_type ); ?>"
 		/>
-		<?php endif; ?>
-
+<?php endif; ?>
 		<itunes:title><?php echo esc_html( $post_title ); ?></itunes:title>
 		<itunes:author><?php echo esc_html( $pb_author ); ?></itunes:author>
 		<itunes:explicit><?php echo esc_html( $pb_explicit ); ?></itunes:explicit>
-		<?php if ( $episode_img ) : ?>
-		<itunes:image href="<?php echo esc_url( $episode_img ); ?>" />
-		<?php endif; ?>
-		<?php if ( $duration ) : ?>
+<?php if ( $episode_img ) : ?>		<itunes:image href="<?php echo esc_url( $episode_img ); ?>" />
+<?php endif; ?>
+<?php if ( $duration ) : ?>
 		<itunes:duration><?php echo esc_html( $duration ); ?></itunes:duration>
-		<?php endif; ?>
-		<?php
-			$transcript_escaped = $transcript_url ? esc_url( $transcript_url ) : '';
-		?>
-		<?php if ( $transcript_escaped ) : ?>
-		<podcast:transcript
+<?php endif; ?>
+<?php
+		$transcript_escaped = $transcript_url ? esc_url( $transcript_url ) : '';
+		if ( $transcript_escaped ) : ?>		<podcast:transcript
 			url="<?php echo $transcript_escaped; // phpcs:ignore WordPress.Security.EscapeOutput -- already escaped ?>"
 			type="<?php echo esc_attr( podcast_blocks_transcript_mime( $transcript_url ) ); ?>"
 		/>
-		<?php endif; ?>
+<?php endif; ?>
 	</item>
 	<?php endwhile; ?>
 </channel>
