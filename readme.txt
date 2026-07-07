@@ -93,7 +93,7 @@ Not currently. This version of Podcast Blocks is intended for a brand new podcas
 
 = 0.9.4 =
 
-* Released 2026-06-27
+* Released 2026-07-07
 * Added Apple Podcasts Verify Token to the Podcast block settings, allowing users to verify their podcast ownership with Apple Podcasts.
 * Allow SRT and VTT transcript files to be uploaded via the media library
 
