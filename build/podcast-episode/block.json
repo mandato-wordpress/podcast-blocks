@@ -44,6 +44,14 @@
     "mediaTitle": {
       "type": "string",
       "default": ""
+    },
+    "transcriptUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "transcriptId": {
+      "type": "integer",
+      "default": 0
     }
   },
   "editorScript": "file:./index.js",

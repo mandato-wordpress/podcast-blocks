@@ -95,6 +95,59 @@ class Podcast_Blocks_Core {
                 'default' => 0,
             ) )
         );
+
+        register_post_meta(
+            'post',
+            '_podcast_transcript_url',
+            array_merge( $shared_args, array(
+                'type'    => 'string',
+                'default' => '',
+            ) )
+        );
+
+        register_post_meta(
+            'post',
+            '_podcast_transcript_id',
+            array_merge( $shared_args, array(
+                'type'    => 'integer',
+                'default' => 0,
+            ) )
+        );
+
+        add_filter( 'upload_mimes', array( $this, 'allow_transcript_mimes' ) );
+        add_filter( 'wp_check_filetype_and_ext', array( $this, 'wp_check_filetype_and_ext' ), 10, 4 );
+    }
+
+    /**
+     * Modify MIME type validation for SRT and VTT transcript files.
+     */
+    public function wp_check_filetype_and_ext( $data, $file, $filename, $mimes ) {
+        // If WordPress has already approved the file, do nothing
+        if ( ! empty( $data['ext'] ) && ! empty( $data['type'] ) ) {
+            return $data;
+        }
+
+        // Get the file extension
+        $file_ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+
+        // Target only .srt and .vtt files
+        if ( in_array( $file_ext, array( 'srt', 'vtt' ), true ) ) {
+            $data['ext']             = $file_ext;
+            $data['type']            = ( $file_ext === 'srt' ) ? 'application/x-subrip' : 'text/vtt';
+            $data['proper_filename'] = false;
+        }
+
+        return $data;
+    }
+    
+
+    /**
+     * Allow SRT and VTT transcript files to be uploaded via the media library.
+     */
+    public function allow_transcript_mimes( $mimes ) {
+        $mimes['srt'] = 'application/x-subrip';
+        $mimes['vtt'] = 'text/vtt';
+        return $mimes;
     }
 
     /**

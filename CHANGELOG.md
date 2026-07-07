@@ -11,6 +11,13 @@ This project adheres somewhat to [Semantic Versioning](https://semver.org/spec/v
 
 ---
 
+## [0.9.4] – 2026-07-07
+
+Transcript files and Apple Podcasts Verify Token support added.
+
+- Added Apple Podcasts Verify Token to the Podcast block settings, allowing users to verify their podcast ownership with Apple Podcasts.
+- Allow SRT and VTT transcript files to be uploaded via the media library
+
 ## [0.9.3] – 2026-05-24
 
 - Tested up to WordPress 7.0.

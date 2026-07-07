@@ -32,7 +32,7 @@ import metadata from './block.json';
 // ─────────────────────────────────────────────────────────────────────────────
 
 function PodcastEpisodeEdit( { attributes, setAttributes } ) {
-	const { mediaUrl, mediaId, mediaType, mediaTitle } = attributes;
+	const { mediaUrl, mediaId, mediaType, mediaTitle, transcriptUrl, transcriptId } = attributes;
 
 	const blockProps = useBlockProps( { className: 'podcast-episode-editor' } );
 
@@ -100,6 +100,33 @@ function PodcastEpisodeEdit( { attributes, setAttributes } ) {
 		}
 	}
 
+	function onSelectTranscript( media ) {
+		setAttributes( {
+			transcriptUrl: media.url,
+			transcriptId: media.id,
+		} );
+		if ( postId ) {
+			editPost( {
+				meta: {
+					_podcast_transcript_url: media.url,
+					_podcast_transcript_id: media.id,
+				},
+			} );
+		}
+	}
+
+	function onRemoveTranscript() {
+		setAttributes( { transcriptUrl: '', transcriptId: 0 } );
+		if ( postId ) {
+			editPost( {
+				meta: {
+					_podcast_transcript_url: '',
+					_podcast_transcript_id: 0,
+				},
+			} );
+		}
+	}
+
 	function onChangeUrl( value ) {
 		const isVideo = /\.(mp4|m4v|webm|ogv|mov)(\?.*)?$/i.test( value );
 		setAttributes( {
@@ -156,6 +183,47 @@ function PodcastEpisodeEdit( { attributes, setAttributes } ) {
 					>
 						{ __( 'File: ', 'podcast-blocks' ) + mediaTitle }
 					</p>
+				) }
+			</PanelBody>
+			<PanelBody
+				title={ __( 'Episode Transcript', 'podcast-blocks' ) }
+				initialOpen={ false }
+			>
+				<p style={ { fontSize: '12px', color: '#757575', marginBottom: '8px' } }>
+					{ __( 'Upload an SRT or VTT transcript file. It will be linked in the podcast RSS feed.', 'podcast-blocks' ) }
+				</p>
+				<MediaUploadCheck>
+					<MediaUpload
+						onSelect={ onSelectTranscript }
+						allowedTypes={ [ 'application/x-subrip', 'text/vtt' ] }
+						value={ transcriptId || undefined }
+						render={ ( { open } ) => (
+							<Button
+								onClick={ open }
+								variant={ transcriptUrl ? 'secondary' : 'primary' }
+								icon={ transcriptUrl ? 'update' : 'upload' }
+							>
+								{ transcriptUrl
+									? __( 'Replace Transcript', 'podcast-blocks' )
+									: __( 'Upload Transcript', 'podcast-blocks' ) }
+							</Button>
+						) }
+					/>
+				</MediaUploadCheck>
+				{ transcriptUrl && (
+					<Fragment>
+						<p style={ { fontSize: '12px', color: '#757575', marginTop: '8px' } }>
+							{ __( 'File: ', 'podcast-blocks' ) + transcriptUrl.split( '/' ).pop() }
+						</p>
+						<Button
+							onClick={ onRemoveTranscript }
+							variant="tertiary"
+							isDestructive
+							style={ { marginTop: '4px' } }
+						>
+							{ __( 'Remove Transcript', 'podcast-blocks' ) }
+						</Button>
+					</Fragment>
 				) }
 			</PanelBody>
 		</InspectorControls>
