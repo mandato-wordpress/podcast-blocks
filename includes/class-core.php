@@ -132,10 +132,9 @@ class Podcast_Blocks_Core {
 
         // Target only .srt and .vtt files
         if ( in_array( $file_ext, array( 'srt', 'vtt' ), true ) ) {
-            $data['ext']  = $file_ext;
-            $data['type'] = ( $file_ext === 'srt' ) ? 'application/x-subrip' : 'text/vtt';
-            $data['proper_filename'] = false; // Prevents WordPress from renaming it
-            $data['proper_filename'] = sanitize_file_name( $_FILES['my_file']['name'] );
+            $data['ext']             = $file_ext;
+            $data['type']            = ( $file_ext === 'srt' ) ? 'application/x-subrip' : 'text/vtt';
+            $data['proper_filename'] = false;
         }
 
         return $data;
