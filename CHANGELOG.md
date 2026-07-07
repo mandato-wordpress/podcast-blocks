@@ -11,7 +11,7 @@ This project adheres somewhat to [Semantic Versioning](https://semver.org/spec/v
 
 ---
 
-## [0.9.4] – 2026-06-27
+## [0.9.4] – 2026-07-07
 
 Transcript files and Apple Podcasts Verify Token support added.
 
