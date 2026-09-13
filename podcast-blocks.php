@@ -3,9 +3,9 @@
  Plugin Name:       Podcast Blocks
  Plugin URI:        https://www.podcastblocks.com/
  Description:       Create and manage podcast episodes using Gutenberg blocks. Includes Apple Podcasts-compatible RSS feed.
- Version:           0.9.4
+ Version:           0.9.5
  Requires at least: 6.5
- Tested up to:      7.0
+ Tested up to:      7.1
  Requires PHP:      8.1
  Author:            Angelo Mandato
  License:           GPL-2.0-or-later
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PODCAST_BLOCKS_VERSION', '0.9.4' );
+define( 'PODCAST_BLOCKS_VERSION', '0.9.5' );
 define( 'PODCAST_BLOCKS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PODCAST_BLOCKS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
