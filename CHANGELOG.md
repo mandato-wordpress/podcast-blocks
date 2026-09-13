@@ -11,6 +11,10 @@ This project adheres somewhat to [Semantic Versioning](https://semver.org/spec/v
 
 ---
 
+## [0.9.5] – 2026-09-13
+
+- Tested up to WordPress 7.1.
+
 ## [0.9.4] – 2026-07-07
 
 Transcript files and Apple Podcasts Verify Token support added.

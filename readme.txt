@@ -2,8 +2,8 @@
 Contributors: amandato
 Tags: podcast, gutenberg, blocks, itunes, apple
 Requires at least: 6.5
-Tested up to: 7.0
-Stable tag: 0.9.4
+Tested up to: 7.1
+Stable tag: 0.9.5
 Requires PHP: 8.1
 License: GPL-2.0-or-later
 Donate link: https://www.podcastblocks.com
@@ -90,6 +90,11 @@ Yes. You can upload VTT or SRT transcript files.
 Not currently. This version of Podcast Blocks is intended for a brand new podcast.
 
 == Changelog ==
+
+= 0.9.5 =
+
+* Released 2026-09-13
+* Tested up to WordPress 7.1
 
 = 0.9.4 =
 
